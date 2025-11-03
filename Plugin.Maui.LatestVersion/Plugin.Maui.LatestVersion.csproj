@@ -11,6 +11,20 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+		 <!-- NuGet package info -->
+		<PackageId>Plugin.Maui.LatestVersion</PackageId>
+		<Title>LatestVersion Plugin for MAUI</Title>
+		<PackageVersion>9.0.0</PackageVersion>
+		<Authors>Andrii Sorochak</Authors>
+		<Owners>Andrii Sorochak</Owners>
+		<PackageLicenseUrl>https://github.com/goodlogin/Plugin.Maui.LatestVersion/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageProjectUrl>https://github.com/goodlogin/Plugin.Maui.LatestVersion</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/goodlogin/Plugin.Maui.LatestVersion</RepositoryUrl>
+		<PackageIconUrl>https://github.com/goodlogin/Plugin.Maui.LatestVersion/master/art/icon.png</PackageIconUrl>
+		<DefineConstants>$(DefineConstants);</DefineConstants>
+		<LangVersion>latest</LangVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
