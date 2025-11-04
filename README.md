@@ -32,4 +32,5 @@ Check if the current running app is the latest version available in the public s
 Get latest version number
 
 `string latestVersionNumber = await CrossLatestVersion.Current.GetLatestVersionNumber();`
-Warning: On Windows, this returns null due to platform limitations.
+> [!NOTE]  
+> On Windows, this returns null due to platform limitations.

@@ -17,6 +17,8 @@
 		<PackageId>Plugin.Maui.LatestVersion</PackageId>
 		<Title>LatestVersion Plugin for MAUI</Title>
 		<PackageVersion>9.0.1</PackageVersion>
+		<Description>LatestVersion Plugin for MAUI apps(ios, android, windows)</Description>
+  		<PackageTags>maui;ios;android;windows</PackageTags>
 		<Authors>Andrii Sorochak</Authors>
 		<Owners>Andrii Sorochak</Owners>
 		<PackageLicenseUrl>https://github.com/goodlogin/Plugin.Maui.LatestVersion/blob/master/LICENSE</PackageLicenseUrl>
