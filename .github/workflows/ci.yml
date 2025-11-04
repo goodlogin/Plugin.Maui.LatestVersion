@@ -17,3 +17,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build
       run: dotnet build Plugin.Maui.LatestVersion.sln -c Release
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: |
+          **/bin/Release/**
+        if-no-files-found: warn
+        retention-days: 7
