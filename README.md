@@ -42,11 +42,10 @@ if (!isLatest)
 ```
 
 > [!NOTE]  
-> The code
+> Next code on Windows returns null due to platform limitations.
 > ```csharp
-> CrossLatestVersion.Current.GetLatestVersionNumber();
+> var latestVersion = await CrossLatestVersion.Current.GetLatestVersionNumber();
 > ```
-> on Windows returns null due to platform limitations.
 
 ## License
 
