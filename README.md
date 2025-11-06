@@ -23,14 +23,30 @@ Install with the dotnet CLI: `dotnet add package Plugin.Maui.LatestVersion`, or 
 | Android  | 24.0 (API 24)              |
 | Windows  | 10.0.17763.0+   |
 
-## API Usage
+## Example
 
-Check if the current running app is the latest version available in the public store:
+```csharp
+using Plugin.Maui.LatestVersion;
 
-`bool isLatest = await CrossLatestVersion.Current.IsUsingLatestVersion();`
+var isLatest = await CrossLatestVersion.Current.IsUsingLatestVersion();
 
-Get latest version number
+if (!isLatest)
+{
+    var update = await DisplayAlert("New Version", "There is a new version of this app available. Would you like to update now?", "Yes", "No");
 
-`string latestVersionNumber = await CrossLatestVersion.Current.GetLatestVersionNumber();`
+    if (update)
+    {
+        await CrossLatestVersion.Current.OpenAppInStore();
+    }
+}
+```
+
 > [!NOTE]  
-> On Windows, this returns null due to platform limitations.
+> Next code on Windows returns null due to platform limitations.
+> ```csharp
+> var latestVersion = await CrossLatestVersion.Current.GetLatestVersionNumber();
+> ```
+
+## License
+
+Licensed under MIT. See [License file](https://github.com/edsnider/LatestVersionPlugin/blob/master/LICENSE)
