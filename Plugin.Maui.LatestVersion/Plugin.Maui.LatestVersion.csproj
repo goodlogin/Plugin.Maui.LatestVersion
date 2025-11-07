@@ -16,9 +16,9 @@
 		<!-- NuGet package info -->
 		<PackageId>Plugin.Maui.LatestVersion</PackageId>
 		<Title>LatestVersion Plugin for MAUI</Title>
-		<PackageVersion>9.0.3</PackageVersion>
+		<PackageVersion>9.0.4</PackageVersion>
 		<Description>LatestVersion Plugin for MAUI apps(ios, android, windows)</Description>
-  		<PackageTags>maui;ios;android;windows</PackageTags>
+  		<PackageTags>LatestVersion;Plugin.Maui.LatestVersion;Plugin.Maui;dotnet-maui;maui;ios;android;windows</PackageTags>
 		<Authors>Andrii Sorochak</Authors>
 		<Owners>Andrii Sorochak</Owners>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>

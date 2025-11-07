@@ -51,6 +51,9 @@ public class LatestVersionImplementation : ILatestVersion
     {
         try
         {
+            if (DeviceInfo.DeviceType == DeviceType.Virtual)
+                throw new LatestVersionException("Cannot open App Store on a simulator.");
+
             _app ??= await LookupApp();
 
             // itms://	Old iTunes Store links	Deprecated
