@@ -53,7 +53,11 @@ public class LatestVersionImplementation : ILatestVersion
         {
             _app ??= await LookupApp();
 
-            await Launcher.OpenAsync(new Uri(_app.Url));
+            // itms://	Old iTunes Store links	Deprecated
+            // itmss://	Secure iTunes Store links	Deprecated
+            // itms-apps://	App Store links	✅ Current and recommended
+            var appStoreUrl = _app.Url.Replace("https://", "itms-apps://");
+            await Launcher.OpenAsync(new Uri(appStoreUrl));
         }
         catch (Exception e)
         {
