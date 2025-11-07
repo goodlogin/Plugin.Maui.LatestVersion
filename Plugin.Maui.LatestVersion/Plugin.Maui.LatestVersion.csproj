@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
+		<TargetFrameworks>net9.0;net9.0-android;net9.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
@@ -16,7 +16,7 @@
 		 <!-- NuGet package info -->
 		<PackageId>Plugin.Maui.LatestVersion</PackageId>
 		<Title>LatestVersion Plugin for MAUI</Title>
-		<PackageVersion>9.0.1</PackageVersion>
+		<PackageVersion>9.0.2</PackageVersion>
 		<Description>LatestVersion Plugin for MAUI apps(ios, android, windows)</Description>
   		<PackageTags>maui;ios;android;windows</PackageTags>
 		<Authors>Andrii Sorochak</Authors>

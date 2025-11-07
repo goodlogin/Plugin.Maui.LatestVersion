@@ -1,6 +1,6 @@
 ﻿namespace Plugin.Maui.LatestVersion;
 
-internal class LatestVersionException : Exception
+public class LatestVersionException : Exception
 {
     public LatestVersionException(string message)
         : base(message)

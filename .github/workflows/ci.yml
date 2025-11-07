@@ -14,9 +14,33 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore Plugin.Maui.LatestVersion.sln
+
     - name: Build
       run: dotnet build Plugin.Maui.LatestVersion.sln -c Release
+
+    - name: Run unit tests
+      run: dotnet test Plugin.Maui.LatestVersion.sln -c Release --no-build --logger "trx;LogFileName=test_results.trx" --collect:"XPlat Code Coverage"
+      continue-on-error: false
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          **/TestResults/**
+        if-no-files-found: warn
+        retention-days: 7
       
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
