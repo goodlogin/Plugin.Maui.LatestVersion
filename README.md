@@ -2,7 +2,7 @@
 Everything in here is of course optional. If you want to add/remove something, absolutely do so as you see fit.
 This example README has some dummy APIs you'll need to replace and only acts as a placeholder for some inspiration that you can fill in with your own functionalities.
 -->
-![](nuget.png)
+![Plugin.Maui.LatestVersion plugin](https://github.com/goodlogin/Plugin.Maui.LatestVersion/blob/main/nuget.png)
 # Plugin.Maui.LatestVersion
 
 `Plugin.Maui.LatestVersion` provides the ability to detect if you are running the latest version of your iOS, Android, or Windows app and open it in the App Store, Play Store, or Microsoft Store to update it.
