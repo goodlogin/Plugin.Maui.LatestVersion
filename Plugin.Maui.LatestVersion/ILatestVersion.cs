@@ -32,5 +32,13 @@ public interface ILatestVersion
     /// <summary>
     /// Opens the current app in the public store.
     /// </summary>
+    /// <remarks>
+    /// May throw <see cref="LatestVersionException"/> when the store cannot be resolved,
+    /// the store URL cannot be determined, or when running on an iOS simulator.
+    /// </remarks>
+    /// <exception cref="LatestVersionException">
+    /// Thrown when the store cannot be resolved, the store URL cannot be determined,
+    /// or when running on an iOS simulator.
+    /// </exception>
     Task OpenAppInStore();
 }
