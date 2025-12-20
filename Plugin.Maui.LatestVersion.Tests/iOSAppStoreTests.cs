@@ -18,6 +18,7 @@ public class IOSAppStoreTests
     [DataRow("com.google.Maps")] // Google Maps
     [DataRow("com.spotify.client")] // Spotify
     [DataRow("com.netflix.Netflix")] // Netflix
+    [DataRow("com.bentas.puma")] // Bentaş Puma
     public async Task GetiOSAppStoreAppAsync_ReturnsVersionAndUrl_ForPopularApps(string bundleId)
     {
         var app = await iOSAppStore.GetiOSAppStoreAppAsync(bundleId, "us");
