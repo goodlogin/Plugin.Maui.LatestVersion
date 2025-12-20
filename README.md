@@ -28,16 +28,24 @@ Install with the dotnet CLI: `dotnet add package Plugin.Maui.LatestVersion`, or 
 ```csharp
 using Plugin.Maui.LatestVersion;
 
-var isLatest = await CrossLatestVersion.Current.IsUsingLatestVersion();
-
-if (!isLatest)
+try
 {
-    var update = await DisplayAlert("New Version", "There is a new version of this app available. Would you like to update now?", "Yes", "No");
+    var isLatest = await CrossLatestVersion.Current.IsUsingLatestVersion();
 
-    if (update)
+    if (!isLatest)
     {
-        await CrossLatestVersion.Current.OpenAppInStore();
+        var update = await DisplayAlert("New Version", "There is a new version of this app available. Would you like to update now?", "Yes", "No");
+
+        if (update)
+        {
+            await CrossLatestVersion.Current.OpenAppInStore();
+        }
     }
+}
+catch (LatestVersionException ex)
+{
+    // Handle exceptions such as no internet connection, app not found in store, etc.
+        Debug.WriteLine($"Error checking app version: {ex.Message}");
 }
 ```
 
