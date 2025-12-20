@@ -20,10 +20,8 @@ public static class GooglePlayStore
             string html = await client.GetStringAsync(url);
 
             // Regex to capture the AF_initDataCallback for ds:5 and extract the data array.
-            var match = Regex.Match(
-                html,
-                @"AF_initDataCallback\({key:\s*'ds:5'.*?data:(\[[\s\S]*?\]),\s*?sideChannel:",
-                RegexOptions.Singleline);
+            var regex = new Regex(@"key:\s*'ds:5'.*?data:([\s\S]*?)\}\);", RegexOptions.Compiled | RegexOptions.Singleline);
+            var match = regex.Match(html);
             if (!match.Success)
             {
                 throw new InvalidOperationException("Failed to locate AF_initDataCallback data.");
@@ -31,27 +29,21 @@ public static class GooglePlayStore
 
             string rawData = match.Groups[1].Value;
 
-            // Convert the unquoted JavaScript object/array into valid JSON.
-            // Replace unquoted keys with quoted keys and single quotes with double quotes.
-            rawData = Regex.Replace(rawData, @"([{,])\s*([A-Za-z_]\w*):", "$1\"$2\":");
-            rawData = rawData.Replace("'", "\"");
+            // The payload sometimes appends a sideChannel section—trim it off before parsing.
+            int sideChannelIndex = rawData.IndexOf(", sideChannel", StringComparison.Ordinal);
+            if (sideChannelIndex > 0)
+            {
+                rawData = rawData[..sideChannelIndex];
+            }
 
-            // Parse the JSON.
             using JsonDocument doc = JsonDocument.Parse(rawData);
             JsonElement data = doc.RootElement;
 
-            Console.WriteLine(data.ToString());
-
-            // // The version string resides at [1][2][140][0][0][0] in the ds:5 data array.
-            // // This path is based on reverse‑engineering of Google’s structure:contentReference[oaicite:2]{index=2}.
-            // version = data[1][2][140][0][0][0].GetString();
-
             // Recursively search for a version-like string
             string version = FindVersion(data);
+            
             if (version == null)
-            {
                 throw new InvalidOperationException("Failed to locate version string in the parsed data.");
-            }
 
             return new StoreApp
             {
