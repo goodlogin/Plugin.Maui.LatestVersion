@@ -45,7 +45,7 @@ try
 catch (LatestVersionException ex)
 {
     // Handle exceptions such as no internet connection, app not found in store, etc.
-        Debug.WriteLine($"Error checking app version: {ex.Message}");
+    Debug.WriteLine($"Error checking app version: {ex.Message}");
 }
 ```
 
