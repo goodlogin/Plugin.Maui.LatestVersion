@@ -5,6 +5,8 @@ namespace Plugin.Maui.LatestVersion.Tests;
 [TestClass]
 public class GooglePlayStoreTests
 {
+    public TestContext TestContext { get; set; } = null!;
+
     // Popular Android app package names (US store)
     // These are well-known apps that should consistently resolve via the Play Store.
 
@@ -18,11 +20,14 @@ public class GooglePlayStoreTests
     [DataRow("com.spotify.music")] // Spotify
     [DataRow("com.netflix.mediaclient")] // Netflix
     [DataRow("com.bentas.puma")] // Bentaş Puma
+    [DataRow("gr.delhaize")] // Delhaize
+    [DataRow("com.dev_metro.odri")] // Odri
     public async Task GetGooglePlayStoreAppAsync_ReturnsVersionAndUrl_ForPopularApps(string packageName)
     {
         var app = await GooglePlayStore.GetGooglePlayStoreAppAsync(packageName);
 
         Assert.IsNotNull(app, "Lookup returned null app");
+        TestContext.WriteLine($"{packageName}: version {app.Version}, url {app.Url}");
         Assert.IsFalse(string.IsNullOrWhiteSpace(app.Version), "Version should not be empty");
         Assert.IsFalse(string.IsNullOrWhiteSpace(app.Url), "Url should not be empty");
         StringAssert.StartsWith(app.Url, "http", "Url should be an http/https link");

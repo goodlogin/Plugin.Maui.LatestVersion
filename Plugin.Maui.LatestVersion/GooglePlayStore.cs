@@ -5,6 +5,8 @@ namespace Plugin.Maui.LatestVersion;
 
 public static class GooglePlayStore
 {
+    private static readonly Regex VersionPattern = new("^\\d+(?:\\.\\d+){1,3}$", RegexOptions.Compiled);
+
     public static async Task<StoreApp> GetGooglePlayStoreAppAsync(string packageName)
     {
         try
@@ -39,7 +41,6 @@ public static class GooglePlayStore
             using JsonDocument doc = JsonDocument.Parse(rawData);
             JsonElement data = doc.RootElement;
 
-            // Recursively search for a version-like string
             string version = FindVersion(data);
             
             if (version == null)
@@ -59,32 +60,76 @@ public static class GooglePlayStore
 
     private static string FindVersion(JsonElement element)
     {
-        if (element.ValueKind == JsonValueKind.String)
+        string best = null;
+        Traverse(element, ref best);
+        return best;
+    }
+
+    private static void Traverse(JsonElement element, ref string best)
+    {
+        switch (element.ValueKind)
         {
-            string text = element.GetString() ?? string.Empty;
-            // Simple regex: one or more digits followed by at least one dot and more digits
-            if (Regex.IsMatch(text, @"^\d+\.\d+(\.\d+)?$"))
-            {
-                return text;
-            }
+            case JsonValueKind.String:
+                string text = element.GetString() ?? string.Empty;
+                if (IsVersionCandidate(text) && IsBetterCandidate(text, best))
+                {
+                    best = text;
+                }
+                break;
+
+            case JsonValueKind.Array:
+                foreach (var item in element.EnumerateArray())
+                {
+                    Traverse(item, ref best);
+                }
+                break;
+
+            case JsonValueKind.Object:
+                foreach (var prop in element.EnumerateObject())
+                {
+                    Traverse(prop.Value, ref best);
+                }
+                break;
         }
-        else if (element.ValueKind == JsonValueKind.Array)
+    }
+
+    private static bool IsVersionCandidate(string text)
+    {
+        return VersionPattern.IsMatch(text);
+    }
+
+    private static bool IsBetterCandidate(string candidate, string best)
+    {
+        if (best == null) return true;
+
+        var candidateSegments = ParseSegments(candidate);
+        var bestSegments = ParseSegments(best);
+
+        if (candidateSegments.Length != bestSegments.Length)
         {
-            foreach (var item in element.EnumerateArray())
-            {
-                var result = FindVersion(item);
-                if (result != null) return result;
-            }
-        }
-        else if (element.ValueKind == JsonValueKind.Object)
-        {
-            foreach (var prop in element.EnumerateObject())
-            {
-                var result = FindVersion(prop.Value);
-                if (result != null) return result;
-            }
+            return candidateSegments.Length > bestSegments.Length;
         }
 
-        return null;
+        for (int i = 0; i < candidateSegments.Length; i++)
+        {
+            if (candidateSegments[i] == bestSegments[i]) continue;
+            return candidateSegments[i] > bestSegments[i];
+        }
+
+        return candidate.Length > best.Length;
+    }
+
+    private static int[] ParseSegments(string version)
+    {
+        var parts = version.Split('.');
+        var segments = new int[parts.Length];
+
+        for (int i = 0; i < parts.Length; i++)
+        {
+            segments[i] = int.TryParse(parts[i], out int value) ? value : 0;
+        }
+
+        return segments;
     }
 }
+

@@ -5,6 +5,8 @@ namespace Plugin.Maui.LatestVersion.Tests;
 [TestClass]
 public class IOSAppStoreTests
 {
+    public TestContext TestContext { get; set; } = null!;
+
     // Popular iOS app bundle identifiers (US store)
     // These are well-known apps that should consistently resolve via the iTunes Lookup API.
     // Source: public app bundle identifiers for major apps.
@@ -24,6 +26,7 @@ public class IOSAppStoreTests
         var app = await iOSAppStore.GetiOSAppStoreAppAsync(bundleId, "us");
 
         Assert.IsNotNull(app, "Lookup returned null app");
+        TestContext.WriteLine($"{bundleId}: version {app.Version}, url {app.Url}");
         Assert.IsFalse(string.IsNullOrWhiteSpace(app.Version), "Version should not be empty");
         Assert.IsFalse(string.IsNullOrWhiteSpace(app.Url), "Url should not be empty");
         StringAssert.StartsWith(app.Url, "http", "Url should be an http/https link");
